@@ -8,6 +8,7 @@ struct Person {
     name: String,
     age: usize,
 }
+use std::str::FromStr;
 
 // We implement the Default trait to use it as a fallback
 // when the provided string is not convertible into a Person object
@@ -35,10 +36,33 @@ impl Default for Person {
 // If while parsing the age, something goes wrong, then return the default of Person
 // Otherwise, then return an instantiated Person object with the results
 
-// I AM NOT DONE
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        if s.len() == 0 {
+            return Person::default();
+        }
+        let mut s = s.split(",");
+        let mut store = vec![];
+        while let Some(x) = s.next() {
+            store.push(x);
+        }
+        if store.len() != 2 || store[0].len() == 0 {
+            return Person::default();
+        }
+        let name = store[0];
+        let age = usize::from_str(store[1]);
+        match age {
+            Ok(x) => {
+                return Person {
+                    name: name.to_string(),
+                    age: x,
+                };
+            }
+            Err(_) => {
+                return Person::default();
+            }
+        }
     }
 }
 

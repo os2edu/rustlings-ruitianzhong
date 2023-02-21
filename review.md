@@ -10,3 +10,5 @@
 + traits2.rs
 + iterators2.rs
 + iterators4.rs
++ from_into.rs
++ as_ref_mut.rs 
